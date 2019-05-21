@@ -1,0 +1,60 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Visitor Prioritization Function
+Resources:
+  ExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: LambdaEdgeRole
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+                - edgelambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: LambdaEdgePolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: "iam:CreateServiceLinkedRole"
+                Resource: "arn:aws:iam::*:role/*"
+              - Effect: Allow
+                Action:
+                  - "lambda:GetFunction"
+                  - "lambda:EnableReplication"
+                Resource: !GetAtt Function.Arn
+              - Effect: Allow
+                Action:
+                  - "cloudfront:UpdateDistribution"
+                  - "cloudfront:CreateDistribution"
+                Resource: "*"
+  Function:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        ZipFile:
+      DeadLetterConfig:
+        DeadLetterConfig
+      Description: String
+      Environment:
+        Environment
+      FunctionName: String
+      Handler: String
+      KmsKeyArn: String
+      Layers:
+        - String
+      MemorySize: Integer
+      ReservedConcurrentExecutions: Integer
+      Role: !Ref ExecutionRole
+      Runtime: String
+      Tags:
+        - Tag
+      Timeout: Integer
+      TracingConfig:
+        TracingConfig
+      VpcConfig:
+        VpcConfig
