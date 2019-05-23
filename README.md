@@ -31,7 +31,18 @@ aws s3 cp lambda.zip s3://mcwhirter-prioritization/lambda.zip
     --stack-name visitor-prioritization-function \
     --template-body file://cloudformation/lambda.yml \
     --parameters file://cloudformation/lambda-parameters.json \
+    --capabilities CAPABILITY_NAMED_IAM \
     --region us-east-1
   ```
 
 ## Test
+
+## Delete
+```
+aws cloudformation delete-stack \
+  --stack-name visitor-prioritization-website \
+  --region us-east-1
+aws cloudformation delete-stack \
+  --stack-name visitor-prioritization-function \
+  --region us-east-1
+```
