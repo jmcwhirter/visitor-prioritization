@@ -8,7 +8,7 @@ todo:
 
 ## Steps
 1. Create S3 bucket and CloudFront distribution
-  ``` bash
+  ```
   aws cloudformation create-stack \
     --stack-name visitor-prioritization-website \
     --template-body file://cloudformation/s3.yml \
@@ -16,7 +16,7 @@ todo:
     --region us-east-1
   ```
 2. Upload files to S3 bucket
-``` bash
+```
 aws s3 cp website/index.html s3://mcwhirter-prioritization/shop/index.html
 aws s3 cp website/please-try-again.html s3://mcwhirter-prioritization/waitingroom/please-try-again.html
 ```
@@ -25,12 +25,12 @@ aws s3 cp website/please-try-again.html s3://mcwhirter-prioritization/waitingroo
   * originHitRate
   * waitingRoomS3
 4. Zip Lambda code and upload to S3
-``` bash
+```
 cd lambda && zip lambda.zip prioritize.js setup.cfg && mv -f lambda.zip ../ && cd ../
 aws s3 cp lambda.zip s3://mcwhirter-prioritization/lambda.zip
 ```
 5. Create IAM role and Lambda function
-  ``` bash
+  ```
   aws cloudformation create-stack \
     --stack-name visitor-prioritization-function \
     --template-body file://cloudformation/lambda.yml \
@@ -43,7 +43,7 @@ aws s3 cp lambda.zip s3://mcwhirter-prioritization/lambda.zip
 Test 1
 * Given originAcceptingTraffic=true, originHitRate=0
 * Expect 'This is my shop'
-  ``` bash
+  ```
   curl -X GET \
     http://d2qww4iyw73ubw.cloudfront.net/shop/index.html \
     -H 'Accept: */*' \
@@ -61,7 +61,7 @@ Test 1
 Test 2
   * Given originAcceptingTraffic=true, originHitRate=0
   * Expect 'Wait please!'
-    ``` bash
+    ```
     curl -X GET \
       http://d2qww4iyw73ubw.cloudfront.net/shop/index.html \
       -H 'Accept: */*' \
@@ -77,7 +77,7 @@ Test 2
     ```
 
 ## Delete
-``` bash
+```
 aws cloudformation delete-stack \
   --stack-name visitor-prioritization-website \
   --region us-east-1
