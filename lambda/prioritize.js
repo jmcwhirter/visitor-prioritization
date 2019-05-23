@@ -5,7 +5,7 @@
  * from an S3 bucket with restricted access, a DynamoDB table,
  * or the CloudFront cache.
  */
-const originAcceptingTraffic = process.env.ACCEPT_TRAFFIC;
+const originAcceptingTraffic = true;
 
 /*
  * The origin hit rate (a value between 0 and 1) specifies a percentage of
@@ -15,7 +15,7 @@ const originAcceptingTraffic = process.env.ACCEPT_TRAFFIC;
  * hit rate value from an S3 bucket, a DynamoDB table, or the CloudFront
  * cache.
  */
-const originHitRate = process.env.HIT_RATE;
+const originHitRate = 0;
 
 exports.handler = (event, context, callback) => {
     const request = event.Records[0].cf.request;
@@ -66,7 +66,7 @@ function isPremiumUser(cookies) {
 }
 
 function setupWaitingRoom(request) {
-    const waitingRoomS3 = process.env.S3_BUCKET_URL;
+    const waitingRoomS3 = 'your-waiting-room-bucket.s3.amazonaws.com';
     request.origin = {
         s3: {
             domainName: waitingRoomS3,
