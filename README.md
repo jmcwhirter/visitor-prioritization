@@ -84,15 +84,15 @@ aws s3 cp lambda.zip s3://mcwhirter-prioritization/lambda.zip
 ## Delete
 1. Remove the files from S3
   ```
-  aws s3 rm s3://mcwhirter-prioritization
+  aws s3 rm --recursive s3://mcwhirter-prioritization
   ```
-2. Delete the website portion
+2. Delete the website portion; this may take a while to complete
   ```
   aws cloudformation delete-stack \
     --stack-name visitor-prioritization-website \
     --region us-east-1
   ```
-3. Delete the function portion
+3. Lambda@Edge can only be deleted once CloudFront has deleted the versions. This can take up to an hour. After that, run this code to delete the function portion
   ```
   aws cloudformation delete-stack \
     --stack-name visitor-prioritization-function \
